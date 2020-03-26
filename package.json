@@ -1,0 +1,49 @@
+{
+  "name": "nodecg-mames",
+  "version": "1.5.0",
+  "description": "A NodeCG bundle, that works along nodecg-speedcontrol and nodecg-obs",
+  "homepage": "https://github.com/Pedrogas/nodecg-mames",
+  "author": {
+    "name": "Pedrogas",
+    "email": "solanof.pedroa@gmail.com",
+    "url": "https://twitter.com/El_Pedrogas"
+  },
+  "files": [
+    "dashboard",
+    "graphics",
+    "extension.js",
+    "extension"
+  ],
+  "keywords": [
+    "",
+    "nodecg-bundle"
+  ],
+  "nodecg": {
+    "compatibleRange": "^1.1.1",
+    "dashboardPanels": [
+      {
+        "name": "nodecg-obs-connector",
+        "title": "Connection",
+        "width": 3,
+        "file": "nodecg-obs-connector.html",
+		"workspace": "SET UP"
+      },
+	  {
+        "name": "nodecg-obs-dashboard",
+        "title": "Scenes",
+        "width": 3,
+        "file": "nodecg-obs-dashboard.html",
+		"workspace": "OBS"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "index.html",
+        "width": 1920,
+        "height": 1080
+      }
+    ]
+  },
+  "repository": "https://github.com/nodecg/nodecg.git",
+  "license": "MIT"
+}

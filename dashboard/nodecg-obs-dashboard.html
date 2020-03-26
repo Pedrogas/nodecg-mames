@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<title>nodecg-obs-dashboard</title>	
+    <link rel="stylesheet" href="css/nodecg-obs-dashboard.css" type="text/css">
+    <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>	    
+    <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+    <link rel="import" href="../bower_components/paper-button/paper-button.html">
+    <style is="custom-style">
+        paper-toggle-button.blue {
+            --paper-toggle-button-checked-bar-color:  #3f51b5;
+            --paper-toggle-button-checked-button-color:  #3f51b5;
+            --paper-toggle-button-checked-ink-color: #3f51b5;
+            --paper-toggle-button-unchecked-bar-color:  #737373;
+            --paper-toggle-button-unchecked-button-color:  #737373;
+            --paper-toggle-button-unchecked-ink-color: #737373;
+        }
+        paper-button.custom {          
+            background-color:#3f51b5;
+            width: 100%;
+        }
+        paper-button[disabled].custom {          
+            background-color:#49505c;
+            width: 100%;
+        }        
+      </style>
+</head>
+<body>    
+    <div class="container click-disabled " id="scenes-container">
+        <div class="studio-mode-toggler click-disabled">
+            <paper-toggle-button class="blue" id="studio-mode-toggler"></paper-toggle-button>
+            <h2>Studio Mode</h2>
+        </div>        
+        <br>
+        <div class="radio-toolbar" id="radio-toolbar"> 
+            <h3>PANEL DISABLED UNTIL <br> OBS CONNECTS</h3>
+        </div>
+        <div>
+            <br>
+            <paper-button raised disabled class="custom" id="transition-button">𝗧𝗥𝗔𝗡𝗦𝗜𝗧𝗜𝗢𝗡</paper-button>
+        </div>
+    </div>	
+    <script src="js/nodecg-obs-dashboard.js"></script>
+</body>
+</html>
