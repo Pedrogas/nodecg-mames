@@ -38,12 +38,17 @@
     ],
     "graphics": [
       {
-        "file": "index.html",
+        "file": "layout.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "intermission.html",
         "width": 1920,
         "height": 1080
       }
     ]
   },
-  "repository": "https://github.com/nodecg/nodecg.git",
+  "repository": "https://github.com/Pedrogas/nodecg-mames.git",
   "license": "MIT"
 }

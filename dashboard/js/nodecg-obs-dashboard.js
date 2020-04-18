@@ -1,3 +1,4 @@
+'use strict';
 const radioToolbar = document.getElementById("radio-toolbar");
 const scenesContainer = document.getElementById("scenes-container");
 const studioModeToggler =  document.getElementById("studio-mode-toggler");
@@ -9,6 +10,58 @@ const _studioMode = nodecg.Replicant('obs:studioMode');
 const _webSocket = nodecg.Replicant('obs:websocket');
 var currentRadio, previewRadio, radios;
 
+/*  VALUES TABLE
+    string    ->  _webSocket.value.status 
+    boolean   ->  _studioMode.value
+    string    ->  _sceneList.value
+    string    ->  _previewScene.value.name
+    string    ->  _currentScene.value.name
+*/ 
+
+_webSocket.on('change', () =>{
+    obsConnection();
+});
+
+_studioMode.on('change', value =>{
+    setStudioMode(value);
+});
+
+_sceneList.on('change', value =>{
+    setScenes(value);
+});
+
+_previewScene.on('change', value =>{
+    NodeCG.waitForReplicants(_previewScene, _currentScene).then(() => {
+        try{            
+            setPreviewScene(value.name)
+        }catch{
+            console.log("currentScene undefined")
+            setPreviewScene(_currentScene.value.name);
+        }
+    });
+});
+
+_currentScene.on('change', value =>{
+    try{
+        currentRadio.classList.remove("radio-checked");
+    }catch{
+        console.log("currentRadio undefined")
+    }finally{
+        setCurrentScene(value.name);
+    }    
+});
+
+nodecg.listenFor('obs:transitioning', transition => {
+    setPreviewScene(transition.toScene);
+});
+
+transitionButton.addEventListener("click", function(){
+    nodecg.sendMessage('obs:transition').then(() => {        
+    }).catch(err => {
+        nodecg.log.error('Transition failed'+ err);
+    });    
+});
+
 function notConnected(){
     radioToolbar.innerHTML="<h3>PANEL DISABLED UNTIL <br> OBS CONNECTS</h3>";
     scenesContainer.classList.add("click-disabled");
@@ -19,7 +72,7 @@ function notConnected(){
 function setStudioMode(active){
     if(active){
         studioModeToggler.setAttribute("checked", "");
-        transitionButton.removeAttribute("disabled");        ;
+        transitionButton.removeAttribute("disabled");        
     }else{
         studioModeToggler.removeAttribute("checked");
         transitionButton.setAttribute("disabled", "");
@@ -69,13 +122,6 @@ function showLoading(){
 }
 
 function obsConnection(){
-    /*  VALUES TABLE
-        string    ->  _webSocket.value.status 
-        boolean   ->  _studioMode.value
-        string    ->  _sceneList.value
-        string    ->  _previewScene.value.name
-        string    ->  _currentScene.value.name
-    */ 
     NodeCG.waitForReplicants(_webSocket, _studioMode,
     _sceneList, _previewScene, _currentScene).then(() => {
         if(_webSocket.value.status == "connected"){        
@@ -97,47 +143,3 @@ function obsConnection(){
         }
     });
 }
-
-transitionButton.addEventListener("click", function(){
-    nodecg.sendMessage('obs:transition').then(() => {        
-    }).catch(err => {
-        nodecg.log.error('Transition failed'+ err);
-    });    
-});
-
-_webSocket.on('change', () =>{
-    obsConnection();
-});
-
-_studioMode.on('change', value =>{
-    setStudioMode(value);
-});
-
-_sceneList.on('change', value =>{
-    setScenes(value);
-});
-
-_previewScene.on('change', value =>{
-    NodeCG.waitForReplicants(_previewScene, _currentScene).then(() => {
-        try{            
-            setPreviewScene(value.name)
-        }catch{
-            console.log("currentScene undefined")
-            setPreviewScene(_currentScene.value.name);
-        }
-    });
-});
-
-_currentScene.on('change', value =>{
-    try{
-        currentRadio.classList.remove("radio-checked");
-    }catch{
-        console.log("currentRadio undefined")
-    }finally{
-        setCurrentScene(value.name);
-    }    
-});
-
-nodecg.listenFor('obs:transitioning', transition => {
-    setPreviewScene(transition.toScene);
-});
